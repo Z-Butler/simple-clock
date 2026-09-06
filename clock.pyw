@@ -70,8 +70,8 @@ class Application(tk.Tk):
         else:  # Set to 12-hour format
             self.time_label.configure(text=f"{self.time.strftime('%I:%M %p')}")
 
-        self._clock_job_id = self.after(ms=1000, func=self.update_clock)
         self.date_label.configure(text=f"{self.date.strftime('%A - %B %d')}")
+        self._clock_job_id = self.after(ms=1000, func=self.update_clock)
 
     def on_escape(self, event: tk.Event | None = None) -> None:
         """Cancel pending clock update and close application."""
