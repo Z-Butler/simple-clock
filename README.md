@@ -1,3 +1,5 @@
+<img width="2559" height="1439" alt="Screenshot 2026-09-06 113617" src="https://github.com/user-attachments/assets/bc488132-ddb3-4231-b223-16465c011b1a" />
+
 # simple-clock
 Just a clock with janky fullscreen effect lol
 
