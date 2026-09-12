@@ -1,8 +1,6 @@
 """Simple clock application."""
-from modules import tkinter_closet as tkc
 import tkinter as tk
 import datetime as dt
-from multiprocessing import Process, Pipe
 
 menu_text = ("'ESC' to quit | "
              "right/left arrows to change time format | "
@@ -13,8 +11,6 @@ menu_text = ("'ESC' to quit | "
 
 class Application(tk.Tk):
     """Initialize tkinter."""
-
-    zip_code = None
 
     def __init__(
             self, x_pixel: int = 2560, y_pixel: int = 1440) -> None:
@@ -65,17 +61,6 @@ class Application(tk.Tk):
         )
         self.date_label.grid(column=0, row=2)
 
-        self.zipcode_input = tkc.InputForm(
-            self,
-            label_text="Enter zip code:",
-            preview=True,
-            font_config=("times new roman", 20),
-            limit_state=True,
-            limit_max=5,
-            limit_min=5,
-        )
-        self.zipcode_input.grid(column=0, row=0)
-
         # Keybinds and update feature.
         self.update_clock()
         self.bind("<Escape>", self.on_escape)
@@ -84,8 +69,6 @@ class Application(tk.Tk):
         self.bind("<Up>", self.change_date_up)
         self.bind("<Down>", self.change_date_down)
         self.bind("<h>", self.app_controls)
-        self.bind("<w>", self.weather)
-
 
     def update_clock(self) -> None:
         """Track and update date and time. Switches between 12/24-hour format."""
@@ -95,7 +78,9 @@ class Application(tk.Tk):
         if self.time_format:  # Set to 24-hour format.
             self.time_label.configure(text=f"{time.strftime('%H:%M')}")
         else:  # Set to 12-hour format
-            self.time_label.configure(text=f"{time.strftime('%I:%M %p')}")
+            self.time_label.configure(
+                text=f"{time.strftime('%I:%M %p').removeprefix("0")}"
+            )
 
         if self.date_format == 0:
             self.date_label.configure(text=f"{date.strftime('%A - %B %d')}")
@@ -139,20 +124,14 @@ class Application(tk.Tk):
         else:
             self.date_format = 5
 
-    def weather(self, event: tk.Event | None = None) -> None:
-        """Show weather conditions."""
-        pass
-
     def app_controls(self, event: tk.Event | None = None) -> None:
         """Show/Hide app controls."""
         if self.show_controls:
             self.show_controls = False
             self.control_label.configure(text="")
-            self.zipcode_input.grid_forget()
         else:
             self.show_controls = True
             self.control_label.configure(text=menu_text)
-            self.zipcode_input.grid()
 
 
 def main() -> None:
